@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`format should format "{"command":"FOO","params":["lorem","ipsum"]}" 1`] = `"FOO lorem ipsum"`;
+
+exports[`format should format "{"command":"FOO","params":["lorem"]}" 1`] = `"FOO lorem"`;
+
+exports[`format should format "{"command":"FOO","params":[]}" 1`] = `"FOO"`;
+
+exports[`format should format "{"command":"FOO","trailing":"Lorem ipsum dolor sit amet"}" 1`] = `"FOO :Lorem ipsum dolor sit amet"`;
+
+exports[`format should format "{"command":"FOO"}" 1`] = `"FOO"`;
+
+exports[`format should format "{"params":["lorem","ipsum"]}" 1`] = `[FormatError: Invalid message]`;
+
+exports[`format should format "{"prefix":{"name":"name","host":"host"},"command":"FOO"}" 1`] = `":name@host FOO"`;
+
+exports[`format should format "{"prefix":{"name":"name","user":"user","host":"host"},"command":"FOO"}" 1`] = `":name!user@host FOO"`;
+
+exports[`format should format "{"prefix":{"name":"name","user":"user"},"command":"FOO"}" 1`] = `":name FOO"`;
+
+exports[`format should format "{"prefix":{"name":"se.rv.er"},"command":"FOO"}" 1`] = `":se.rv.er FOO"`;
+
+exports[`format should format "{"prefix":{"user":"user"},"command":"FOO"}" 1`] = `[FormatError: Invalid prefix]`;
+
+exports[`format should format "{"tags":{"lorem":""},"command":"FOO"}" 1`] = `"@lorem= FOO"`;
+
+exports[`format should format "{"tags":{"lorem":"lorem","ipsum":"ipsum"},"command":"FOO"}" 1`] = `"@lorem=lorem;ipsum=ipsum FOO"`;
+
+exports[`format should format "{"tags":{"lorem":"lorem"}}" 1`] = `[FormatError: Invalid message]`;
+
+exports[`format should format "{"tags":{"lorem":"lorem\\\\ipsum dolor\\rsit\\namet;"},"command":"FOO"}" 1`] = `"@lorem=lorem\\\\\\\\ipsum\\\\sdolor\\\\rsit\\\\namet\\\\: FOO"`;
+
+exports[`format should format "{"tags":{"lorem":true},"command":"FOO"}" 1`] = `"@lorem FOO"`;
+
+exports[`format should format "{"tags":{"lorem":true},"command":"FOO"}" 2`] = `"@lorem FOO"`;
+
+exports[`format should format "{"tags":{"lorem":true},"prefix":{"user":"user"},"command":"FOO"}" 1`] = `[FormatError: Invalid prefix]`;
+
+exports[`format should format "{"tags":{},"command":"FOO"}" 1`] = `"FOO"`;
+
+exports[`format should format "{}" 1`] = `[FormatError: Invalid message]`;

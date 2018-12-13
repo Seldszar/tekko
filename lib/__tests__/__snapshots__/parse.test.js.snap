@@ -1,0 +1,338 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parse should parse "" 1`] = `[ParseError: Invalid message]`;
+
+exports[`parse should parse ":! FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": null,
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":@ FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": null,
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":nick FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": Object {
+    "host": null,
+    "name": "nick",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":nick!user FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": Object {
+    "host": null,
+    "name": "nick",
+    "user": "user",
+  },
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":nick!user@host FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": Object {
+    "host": "host",
+    "name": "nick",
+    "user": "user",
+  },
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":nick@host FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": Object {
+    "host": "host",
+    "name": "nick",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":se.rv.er FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": Object {
+    "host": null,
+    "name": "se.rv.er",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":test     PRIVMSG    foo     :bar" 1`] = `
+Object {
+  "command": "PRIVMSG",
+  "params": Array [
+    "foo",
+  ],
+  "prefix": Object {
+    "host": null,
+    "name": "test",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": "bar",
+}
+`;
+
+exports[`parse should parse ":test " 1`] = `[ParseError: Invalid message]`;
+
+exports[`parse should parse ":test FOO     " 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": Object {
+    "host": null,
+    "name": "test",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":test FOO bar baz quux" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [
+    "bar",
+    "baz",
+    "quux",
+  ],
+  "prefix": Object {
+    "host": null,
+    "name": "test",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":test FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": Object {
+    "host": null,
+    "name": "test",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse ":test PRIVMSG #fo:oo :This is a test" 1`] = `
+Object {
+  "command": "PRIVMSG",
+  "params": Array [
+    "#fo:oo",
+  ],
+  "prefix": Object {
+    "host": null,
+    "name": "test",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": "This is a test",
+}
+`;
+
+exports[`parse should parse ":test PRIVMSG foo :A string   with spaces   " 1`] = `
+Object {
+  "command": "PRIVMSG",
+  "params": Array [
+    "foo",
+  ],
+  "prefix": Object {
+    "host": null,
+    "name": "test",
+    "user": null,
+  },
+  "tags": Object {},
+  "trailing": "A string   with spaces   ",
+}
+`;
+
+exports[`parse should parse ":test!me@test.ing PRIVMSG #Test :This is a test" 1`] = `
+Object {
+  "command": "PRIVMSG",
+  "params": Array [
+    "#Test",
+  ],
+  "prefix": Object {
+    "host": "test.ing",
+    "name": "test",
+    "user": "me",
+  },
+  "tags": Object {},
+  "trailing": "This is a test",
+}
+`;
+
+exports[`parse should parse "@" 1`] = `[ParseError: Invalid message]`;
+
+exports[`parse should parse "@test=;single :" 1`] = `[ParseError: Invalid message]`;
+
+exports[`parse should parse "@test=super;single     :test!me@test.ing    FOO   bar    baz   quux   :This is a test" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [
+    "bar",
+    "baz",
+    "quux",
+  ],
+  "prefix": Object {
+    "host": "test.ing",
+    "name": "test",
+    "user": "me",
+  },
+  "tags": Object {
+    "single": true,
+    "test": "super",
+  },
+  "trailing": "This is a test",
+}
+`;
+
+exports[`parse should parse "@test=super;single :  This is a test" 1`] = `
+Object {
+  "command": "This",
+  "params": Array [
+    "is",
+    "a",
+    "test",
+  ],
+  "prefix": null,
+  "tags": Object {
+    "single": true,
+    "test": "super",
+  },
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse "@test=super;single :" 1`] = `[ParseError: Invalid message]`;
+
+exports[`parse should parse "@test=super;single :test!me@test.ing FOO bar baz quux :This is a test" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [
+    "bar",
+    "baz",
+    "quux",
+  ],
+  "prefix": Object {
+    "host": "test.ing",
+    "name": "test",
+    "user": "me",
+  },
+  "tags": Object {
+    "single": true,
+    "test": "super",
+  },
+  "trailing": "This is a test",
+}
+`;
+
+exports[`parse should parse "@test=super\\r\\n\\\\\\:\\shyper\\;single :" 1`] = `[ParseError: Invalid message]`;
+
+exports[`parse should parse "@test=super\\shyper;single :" 1`] = `[ParseError: Invalid message]`;
+
+exports[`parse should parse "FOO    bar      baz   quux" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [
+    "bar",
+    "baz",
+    "quux",
+  ],
+  "prefix": null,
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse "FOO bar baz quux :This is a test" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [
+    "bar",
+    "baz",
+    "quux",
+  ],
+  "prefix": null,
+  "tags": Object {},
+  "trailing": "This is a test",
+}
+`;
+
+exports[`parse should parse "FOO bar baz quux" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [
+    "bar",
+    "baz",
+    "quux",
+  ],
+  "prefix": null,
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse "FOO" 1`] = `
+Object {
+  "command": "FOO",
+  "params": Array [],
+  "prefix": null,
+  "tags": Object {},
+  "trailing": null,
+}
+`;
+
+exports[`parse should parse "PRIVMSG #Test :This is a test" 1`] = `
+Object {
+  "command": "PRIVMSG",
+  "params": Array [
+    "#Test",
+  ],
+  "prefix": null,
+  "tags": Object {},
+  "trailing": "This is a test",
+}
+`;
