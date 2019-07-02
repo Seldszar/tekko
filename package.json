@@ -4,7 +4,7 @@
   "description": "Another IRC message parser and formatter",
   "author": "Alexandre Breteau <contact@seldszar.fr>",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "homepage": "https://github.com/seldszar/tekko#readme",
   "repository": {
     "type": "git",
@@ -14,7 +14,8 @@
     "url": "https://github.com/seldszar/tekko/issues"
   },
   "files": [
-    "lib",
+    "dist",
+    "types",
     "LICENSE",
     "README.md"
   ],
@@ -28,25 +29,29 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "documentation": "documentation build lib/index.js --format=md --output=API.md",
-    "lint": "eslint --format codeframe .",
-    "lint-staged": "lint-staged",
-    "semantic-release": "semantic-release",
+    "build": "tsc",
+    "lint": "eslint --format codeframe src/**/*",
+    "release": "npm run build && semantic-release",
     "test": "jest"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.2.1",
-    "@commitlint/config-conventional": "^7.0.1",
-    "babel-eslint": "^10.0.1",
-    "documentation": "^9.0.0",
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "@types/jest": "^24.0.15",
+    "@types/node": "^12.0.8",
+    "@typescript-eslint/eslint-plugin": "^1.10.2",
+    "@typescript-eslint/parser": "^1.10.2",
     "eslint": "^5.10.0",
-    "eslint-config-prettier": "^3.3.0",
-    "eslint-plugin-prettier": "^3.0.0",
-    "husky": "^1.2.1",
-    "jest": "^23.2.0",
-    "lint-staged": "^8.1.0",
-    "prettier": "^1.15.3",
-    "semantic-release": "^15.12.5"
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^2.7.0",
+    "jest": "^24.8.0",
+    "lint-staged": "^8.2.1",
+    "prettier": "^1.18.2",
+    "semantic-release": "^15.13.18",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.3.0",
+    "typescript": "3.5.2"
   },
   "commitlint": {
     "extends": [
@@ -56,7 +61,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {

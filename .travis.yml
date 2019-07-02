@@ -1,8 +1,6 @@
 language: node_js
 
-cache:
-  directories:
-    - ~/.npm
+cache: yarn
 
 node_js:
   - 8
@@ -17,13 +15,16 @@ branches:
   except:
     - /^v\d+\.\d+\.\d+$/
 
+jobs:
+  include:
+    - stage: deploy
+      script: yarn release
+
 before_install:
-  - npm install -g codecov
+  - curl -o- -L https://yarnpkg.com/install.sh | bash
+  - export PATH="$HOME/.yarn/bin:$PATH"
+  - yarn global add codecov
 
 script:
-  - npm test -- --coverage
+  - yarn test --coverage
   - codecov
-
-after_success:
-  - npm install -g travis-deploy-once
-  - travis-deploy-once "npm run semantic-release"

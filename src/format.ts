@@ -1,13 +1,13 @@
-const { FormatError } = require("./errors");
-const { escapeString } = require("./helpers");
+import { FormatError } from "./errors";
+import { escapeString } from "./helpers";
+import { MessagePrefix, Message, MessageTags } from "./types";
 
 /**
  * Formats message tags.
- * @private
- * @param {Object} input the message tags
- * @return {String} the formatted message tags.
+ * @param input the message tags
+ * @return the formatted message tags.
  */
-function formatTags(input) {
+function formatTags(input: MessageTags): string {
   const tagPairs = Object.entries(input);
   const tagPairsLength = tagPairs.length;
 
@@ -32,12 +32,11 @@ function formatTags(input) {
 
 /**
  * Formats a message prefix.
- * @private
  * @throws {FormatError}
- * @param {MessagePrefix} input the message prefix
- * @return {String} the formatted message prefix.
+ * @param input the message prefix
+ * @return the formatted message prefix.
  */
-function formatPrefix(input) {
+function formatPrefix(input: MessagePrefix): string {
   if (input.name) {
     let output = input.name;
 
@@ -58,10 +57,10 @@ function formatPrefix(input) {
 /**
  * Formats a message.
  * @throws {FormatError}
- * @param {Message} input the message
- * @return {?String} the formatted message.
+ * @param input the message
+ * @return the formatted message.
  */
-function format(input) {
+export function format(input: Message): string {
   if (!input || !input.command) {
     throw new FormatError("Invalid message");
   }
@@ -86,19 +85,17 @@ function format(input) {
 
   output += input.command;
 
-  if (input.params) {
-    const paramsLength = input.params.length;
+  if (input.params && input.params.length > 0) {
+    const trailing = input.params[input.params.length - 1];
+    const middle = input.params.slice(0, -1);
+    const middleLength = middle.length;
 
-    for (let i = 0; i < paramsLength; i += 1) {
-      output += ` ${escapeString(input.params[i])}`;
+    for (let i = 0; i < middleLength; i += 1) {
+      output += ` ${escapeString(middle[i])}`;
     }
-  }
 
-  if (input.trailing) {
-    output += ` :${input.trailing}`;
+    output += ` :${trailing}`;
   }
 
   return output;
 }
-
-module.exports = format;

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "target": "es2017",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "types",
+    "newLine": "lf"
+  },
+  "exclude": [
+    "**/__mocks__",
+    "**/__tests__"
+  ]
+}

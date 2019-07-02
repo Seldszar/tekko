@@ -1,4 +1,6 @@
-const parse = require("../parse");
+import { ParseError } from "../errors";
+import { parse as parseMessage } from "../parse";
+import { Message } from "../types";
 
 describe("parse", () => {
   const testCases = [
@@ -35,15 +37,15 @@ describe("parse", () => {
 
   for (const testCase of testCases) {
     test(`should parse "${testCase}"`, () => {
-      let result;
-
       try {
-        result = parse(testCase);
-      } catch (error) {
-        result = error;
-      }
+        const result = parseMessage(testCase);
 
-      expect(result).toMatchSnapshot();
+        expect(result).toMatchSnapshot();
+        expect(result.middle).toMatchSnapshot();
+        expect(result.trailing).toMatchSnapshot();
+      } catch (error) {
+        expect(error).toMatchSnapshot();
+      }
     });
   }
 });

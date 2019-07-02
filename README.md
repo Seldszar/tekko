@@ -8,7 +8,6 @@ Heavily inspired by [`irc-message`](https://github.com/sigkell/irc-message), thi
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [API](#api)
 - [Author](#author)
 - [License](#license)
 
@@ -20,38 +19,53 @@ npm install tekko --save
 
 ## Usage
 
-```javascript
-const { format, parse } = require("tekko");
+### Parse
 
-console.log(format({
+```javascript
+const { parse } = require("tekko");
+
+const result = parse("@lorem=ipsum;dolor :hello!sir@madam PRIVMSG #test :Hello, world!"));
+/* { command: 'PRIVMSG',
+ *   params: [ '#test', 'Hello, world!' ],
+ *   prefix:
+ *    { host: 'madam',
+ *      nick: 'hello',
+ *      user: 'sir' },
+ *   tags: {
+ *      lorem: 'ipsum',
+ *      dolor: true } }
+ */
+
+console.log(result.middle);
+/* [ '#test' ]
+ */
+
+console.log(result.trailing);
+/* 'Hello, world!'
+ */
+```
+
+### Format
+
+```javascript
+const { format } = require("tekko");
+
+const result = format({
   command: "PRIVMSG",
-  params: ["#test"],
+  params: ["#test", "Hello, world!"],
   prefix: {
     host: "madam",
     nick: "hello",
     user: "sir",
   },
-  tags: {},
-  trailing: "Hello, world!",
-}));
-/* ":hello!sir@madam PRIVMSG #test :Hello, world!"
- */
-
-console.log(parse(":hello!sir@madam PRIVMSG #test :Hello, world!"));
-/* { command: 'PRIVMSG',
- *   params: [ '#test' ],
- *   prefix:
- *    { host: 'madam',
- *      nick: 'hello',
- *      user: 'sir' },
- *   tags: {},
- *   trailing: 'Hello, world!' }
+  tags: {
+    lorem: 'ipsum',
+    dolor: true,
+  },
+});
+/* "@lorem=ipsum;dolor :hello!sir@madam PRIVMSG #test :Hello, world!"
  */
 ```
-
-# API
-
-See the detailed [API Reference](API.md).
 
 ## Author
 

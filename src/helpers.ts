@@ -1,10 +1,9 @@
 /**
  * Escapes a string.
- * @private
- * @param {String} input the string to escape
- * @return {String} the escaped string.
+ * @param input the string to escape
+ * @return the escaped string.
  */
-function escapeString(input) {
+export function escapeString(input: string): string {
   if (!input) {
     return "";
   }
@@ -45,16 +44,15 @@ function escapeString(input) {
 
 /**
  * Unescapes a string.
- * @private
- * @param {String} input the string to unescape
- * @return {String} the unescaped string.
+ * @param input the string to unescape
+ * @return the unescaped string.
  */
-function unescapeString(input) {
+export function unescapeString(input: string): string {
   if (!input) {
     return "";
   }
 
-  let nextBackslash;
+  let nextBackslash: number;
 
   if ((nextBackslash = input.indexOf("\\")) === -1) {
     return input;
@@ -62,19 +60,19 @@ function unescapeString(input) {
 
   const end = input.length - 1;
 
+  let cursor = 0;
   let output = "";
-  let position = 0;
 
   do {
-    if (position < nextBackslash) {
-      output += input.slice(position, nextBackslash);
+    if (cursor < nextBackslash) {
+      output += input.slice(cursor, nextBackslash);
     }
 
-    if ((position = nextBackslash + 1) >= end) {
+    if ((cursor = nextBackslash + 1) >= end) {
       break;
     }
 
-    let charCode = input.charCodeAt(position);
+    let charCode = input.charCodeAt(cursor);
 
     switch (charCode) {
       case 58:
@@ -94,16 +92,13 @@ function unescapeString(input) {
         break;
     }
 
+    cursor += 1;
     output += String.fromCharCode(charCode);
-    position += 1;
-  } while ((nextBackslash = input.indexOf("\\", position)) !== -1);
+  } while ((nextBackslash = input.indexOf("\\", cursor)) !== -1);
 
-  if (position <= end) {
-    output += input.slice(position);
+  if (cursor <= end) {
+    output += input.slice(cursor);
   }
 
   return output;
 }
-
-exports.escapeString = escapeString;
-exports.unescapeString = unescapeString;
