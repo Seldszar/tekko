@@ -5,6 +5,7 @@
   "author": "Alexandre Breteau <contact@seldszar.fr>",
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "types",
   "homepage": "https://github.com/seldszar/tekko#readme",
   "repository": {
     "type": "git",
