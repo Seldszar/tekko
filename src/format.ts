@@ -1,6 +1,6 @@
 import { FormatError } from "./errors";
 import { escapeString } from "./helpers";
-import { MessagePrefix, Message, MessageTags } from "./types";
+import { MessagePrefix, MessageTags } from "./types";
 
 /**
  * Formats message tags.
@@ -60,7 +60,7 @@ function formatPrefix(input: MessagePrefix): string {
  * @param input the message
  * @return the formatted message.
  */
-export function format(input: Message): string {
+export function format(input: any): string {
   if (!input || !input.command) {
     throw new FormatError("Invalid message");
   }
