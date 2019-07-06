@@ -2,7 +2,7 @@
  * Message tags
  */
 export interface MessageTags {
-  [key: string]: true | string;
+  [key: string]: boolean | string;
 }
 
 /**
@@ -58,4 +58,29 @@ export interface Message {
    * The trailing parameters.
    */
   readonly trailing: string;
+}
+
+/**
+ * A message input.
+ */
+export interface MessageInput {
+  /**
+   * The tags.
+   */
+  tags?: string | MessageTags;
+
+  /**
+   * The prefix.
+   */
+  prefix?: string | MessagePrefix;
+
+  /**
+   * The command.
+   */
+  command: string;
+
+  /**
+   * The parameters.
+   */
+  params?: string[];
 }

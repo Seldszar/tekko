@@ -55,12 +55,12 @@ export function parse(input: string): Message {
 
   Object.defineProperties(message, {
     middle: {
-      get() {
+      get(): string[] {
         return this.params.slice(0, -1);
       },
     },
     trailing: {
-      get() {
+      get(): string {
         return this.params[this.params.length - 1];
       },
     },

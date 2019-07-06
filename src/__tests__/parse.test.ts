@@ -1,8 +1,6 @@
-import { ParseError } from "../errors";
 import { parse as parseMessage } from "../parse";
-import { Message } from "../types";
 
-describe("parse", () => {
+describe("parse", (): void => {
   const testCases = [
     "",
     "@",
@@ -36,7 +34,7 @@ describe("parse", () => {
   ];
 
   for (const testCase of testCases) {
-    test(`should parse "${testCase}"`, () => {
+    test(`should parse "${testCase}"`, (): void => {
       try {
         const result = parseMessage(testCase);
 

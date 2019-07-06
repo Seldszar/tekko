@@ -2,8 +2,8 @@
  * A base error.
  * @param message the message
  */
-class BaseError extends Error {
-  constructor(message: string) {
+abstract class BaseError extends Error {
+  public constructor(message: string) {
     super(message);
 
     /* istanbul ignore next */
@@ -20,11 +20,9 @@ class BaseError extends Error {
 /**
  * A parsing error.
  */
-export class ParseError extends BaseError {
-}
+export class ParseError extends BaseError {}
 
 /**
  * A formatting error.
  */
-export class FormatError extends BaseError {
-}
+export class FormatError extends BaseError {}

@@ -6,7 +6,6 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "declaration": true,
-    "declarationDir": "types",
     "newLine": "lf"
   },
   "exclude": [

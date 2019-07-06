@@ -1,8 +1,7 @@
 import { FormatError } from "../errors";
 import { format as formatMessage } from "../format";
-import { Message } from "../types";
 
-describe("format", () => {
+describe("format", (): void => {
   const testCases = [
     {},
     { tags: "lorem", command: "FOO" },
@@ -29,11 +28,11 @@ describe("format", () => {
   ];
 
   for (const testCase of testCases) {
-    test(`should format "${JSON.stringify(testCase)}"`, () => {
+    test(`should format "${JSON.stringify(testCase)}"`, (): void => {
       let result: string | FormatError;
 
       try {
-        result = formatMessage(testCase as Message);
+        result = formatMessage(testCase as any);
       } catch (error) {
         result = error;
       }

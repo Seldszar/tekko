@@ -60,6 +60,3 @@ typings/
 
 # Transpiled files
 dist/
-
-# Typescript declaration files
-types/

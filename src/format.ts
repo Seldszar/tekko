@@ -1,13 +1,17 @@
 import { FormatError } from "./errors";
 import { escapeString } from "./helpers";
-import { MessagePrefix, MessageTags } from "./types";
+import { MessageInput, MessagePrefix, MessageTags } from "./types";
 
 /**
  * Formats message tags.
  * @param input the message tags
  * @return the formatted message tags.
  */
-function formatTags(input: MessageTags): string {
+function formatTags(input: string | MessageTags): string {
+  if (typeof input === "string") {
+    return input;
+  }
+
   const tagPairs = Object.entries(input);
   const tagPairsLength = tagPairs.length;
 
@@ -18,7 +22,7 @@ function formatTags(input: MessageTags): string {
 
     output += key;
 
-    if (value !== true) {
+    if (typeof value === "string") {
       output += `=${escapeString(value)}`;
     }
 
@@ -36,7 +40,11 @@ function formatTags(input: MessageTags): string {
  * @param input the message prefix
  * @return the formatted message prefix.
  */
-function formatPrefix(input: MessagePrefix): string {
+function formatPrefix(input: string | MessagePrefix): string {
+  if (typeof input === "string") {
+    return input;
+  }
+
   if (input.name) {
     let output = input.name;
 
@@ -60,7 +68,11 @@ function formatPrefix(input: MessagePrefix): string {
  * @param input the message
  * @return the formatted message.
  */
-export function format(input: any): string {
+export function format(input: string | MessageInput): string {
+  if (typeof input === "string") {
+    return input;
+  }
+
   if (!input || !input.command) {
     throw new FormatError("Invalid message");
   }
