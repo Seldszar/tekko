@@ -9,12 +9,16 @@ Object {
 }
 `;
 
+exports[`parse should parse ":! FOO" 2`] = `Array []`;
+
 exports[`parse should parse ":@ FOO" 1`] = `
 Object {
   "command": "FOO",
   "params": Array [],
 }
 `;
+
+exports[`parse should parse ":@ FOO" 2`] = `Array []`;
 
 exports[`parse should parse ":nick FOO" 1`] = `
 Object {
@@ -26,6 +30,8 @@ Object {
 }
 `;
 
+exports[`parse should parse ":nick FOO" 2`] = `Array []`;
+
 exports[`parse should parse ":nick!user FOO" 1`] = `
 Object {
   "command": "FOO",
@@ -36,6 +42,8 @@ Object {
   },
 }
 `;
+
+exports[`parse should parse ":nick!user FOO" 2`] = `Array []`;
 
 exports[`parse should parse ":nick!user@host FOO" 1`] = `
 Object {
@@ -49,6 +57,8 @@ Object {
 }
 `;
 
+exports[`parse should parse ":nick!user@host FOO" 2`] = `Array []`;
+
 exports[`parse should parse ":nick@host FOO" 1`] = `
 Object {
   "command": "FOO",
@@ -60,6 +70,8 @@ Object {
 }
 `;
 
+exports[`parse should parse ":nick@host FOO" 2`] = `Array []`;
+
 exports[`parse should parse ":se.rv.er FOO" 1`] = `
 Object {
   "command": "FOO",
@@ -69,6 +81,8 @@ Object {
   },
 }
 `;
+
+exports[`parse should parse ":se.rv.er FOO" 2`] = `Array []`;
 
 exports[`parse should parse ":test     PRIVMSG    foo     :bar" 1`] = `
 Object {
@@ -83,6 +97,13 @@ Object {
 }
 `;
 
+exports[`parse should parse ":test     PRIVMSG    foo     :bar" 2`] = `
+Array [
+  "foo",
+  "bar",
+]
+`;
+
 exports[`parse should parse ":test " 1`] = `[ParseError: Invalid Message]`;
 
 exports[`parse should parse ":test FOO     " 1`] = `
@@ -94,6 +115,8 @@ Object {
   },
 }
 `;
+
+exports[`parse should parse ":test FOO     " 2`] = `Array []`;
 
 exports[`parse should parse ":test FOO bar baz quux" 1`] = `
 Object {
@@ -109,6 +132,14 @@ Object {
 }
 `;
 
+exports[`parse should parse ":test FOO bar baz quux" 2`] = `
+Array [
+  "bar",
+  "baz",
+  "quux",
+]
+`;
+
 exports[`parse should parse ":test FOO" 1`] = `
 Object {
   "command": "FOO",
@@ -118,6 +149,8 @@ Object {
   },
 }
 `;
+
+exports[`parse should parse ":test FOO" 2`] = `Array []`;
 
 exports[`parse should parse ":test PRIVMSG #fo:oo :This is a test" 1`] = `
 Object {
@@ -130,6 +163,13 @@ Object {
     "name": "test",
   },
 }
+`;
+
+exports[`parse should parse ":test PRIVMSG #fo:oo :This is a test" 2`] = `
+Array [
+  "#fo:oo",
+  "This is a test",
+]
 `;
 
 exports[`parse should parse ":test PRIVMSG foo :A string   with spaces   " 1`] = `
@@ -145,6 +185,13 @@ Object {
 }
 `;
 
+exports[`parse should parse ":test PRIVMSG foo :A string   with spaces   " 2`] = `
+Array [
+  "foo",
+  "A string   with spaces   ",
+]
+`;
+
 exports[`parse should parse ":test!me@test.ing PRIVMSG #Test :This is a test" 1`] = `
 Object {
   "command": "PRIVMSG",
@@ -158,6 +205,13 @@ Object {
     "user": "me",
   },
 }
+`;
+
+exports[`parse should parse ":test!me@test.ing PRIVMSG #Test :This is a test" 2`] = `
+Array [
+  "#Test",
+  "This is a test",
+]
 `;
 
 exports[`parse should parse "@" 1`] = `[ParseError: Invalid Message]`;
@@ -185,6 +239,15 @@ Object {
 }
 `;
 
+exports[`parse should parse "@test=super;single     :test!me@test.ing    FOO   bar    baz   quux   :This is a test" 2`] = `
+Array [
+  "bar",
+  "baz",
+  "quux",
+  "This is a test",
+]
+`;
+
 exports[`parse should parse "@test=super;single :  This is a test" 1`] = `
 Object {
   "command": "This",
@@ -198,6 +261,14 @@ Object {
     "test": "super",
   },
 }
+`;
+
+exports[`parse should parse "@test=super;single :  This is a test" 2`] = `
+Array [
+  "is",
+  "a",
+  "test",
+]
 `;
 
 exports[`parse should parse "@test=super;single :" 1`] = `[ParseError: Invalid Message]`;
@@ -223,6 +294,15 @@ Object {
 }
 `;
 
+exports[`parse should parse "@test=super;single :test!me@test.ing FOO bar baz quux :This is a test" 2`] = `
+Array [
+  "bar",
+  "baz",
+  "quux",
+  "This is a test",
+]
+`;
+
 exports[`parse should parse "@test=super\\r\\n\\\\\\:\\shyper\\;single :" 1`] = `[ParseError: Invalid Message]`;
 
 exports[`parse should parse "@test=super\\shyper;single :" 1`] = `[ParseError: Invalid Message]`;
@@ -238,6 +318,14 @@ Object {
 }
 `;
 
+exports[`parse should parse "FOO    bar      baz   quux" 2`] = `
+Array [
+  "bar",
+  "baz",
+  "quux",
+]
+`;
+
 exports[`parse should parse "FOO bar baz quux :This is a test" 1`] = `
 Object {
   "command": "FOO",
@@ -248,6 +336,15 @@ Object {
     "This is a test",
   ],
 }
+`;
+
+exports[`parse should parse "FOO bar baz quux :This is a test" 2`] = `
+Array [
+  "bar",
+  "baz",
+  "quux",
+  "This is a test",
+]
 `;
 
 exports[`parse should parse "FOO bar baz quux" 1`] = `
@@ -261,12 +358,22 @@ Object {
 }
 `;
 
+exports[`parse should parse "FOO bar baz quux" 2`] = `
+Array [
+  "bar",
+  "baz",
+  "quux",
+]
+`;
+
 exports[`parse should parse "FOO" 1`] = `
 Object {
   "command": "FOO",
   "params": Array [],
 }
 `;
+
+exports[`parse should parse "FOO" 2`] = `Array []`;
 
 exports[`parse should parse "PRIVMSG #Test :This is a test" 1`] = `
 Object {
@@ -276,4 +383,11 @@ Object {
     "This is a test",
   ],
 }
+`;
+
+exports[`parse should parse "PRIVMSG #Test :This is a test" 2`] = `
+Array [
+  "#Test",
+  "This is a test",
+]
 `;
