@@ -60,10 +60,7 @@ export interface Message {
   trailing: string;
 }
 
-/**
- * A message input.
- */
-export interface MessageInput {
+interface BaseMessageInput {
   /**
    * The tags.
    */
@@ -78,9 +75,23 @@ export interface MessageInput {
    * The command.
    */
   command: string;
+}
 
+export interface MessageInputLegacy extends BaseMessageInput {
   /**
    * The parameters.
    */
   params?: string[];
+}
+
+export interface MessageInputComposite extends BaseMessageInput {
+  /**
+   * The middle parameters.
+   */
+  middle?: string[];
+
+  /**
+   * The trailing parameters.
+   */
+  trailing?: string;
 }

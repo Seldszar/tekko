@@ -1,13 +1,13 @@
 import { FormatError } from "./errors";
 import { escapeString } from "./helpers";
-import { MessageInput, MessagePrefix, MessageTags } from "./types";
+import { MessageInputLegacy, MessageInputComposite, MessagePrefix, MessageTags } from "./types";
 
 /**
  * Formats message tags.
  * @param input the message tags
  * @return the formatted message tags.
  */
-function formatTags(input: string | MessageTags): string {
+export function formatTags(input: string | MessageTags): string {
   if (typeof input === "string") {
     return input;
   }
@@ -40,7 +40,7 @@ function formatTags(input: string | MessageTags): string {
  * @param input the message prefix
  * @return the formatted message prefix.
  */
-function formatPrefix(input: string | MessagePrefix): string {
+export function formatPrefix(input: string | MessagePrefix): string {
   if (typeof input === "string") {
     return input;
   }
@@ -59,7 +59,7 @@ function formatPrefix(input: string | MessagePrefix): string {
     return output;
   }
 
-  throw new FormatError("Invalid prefix");
+  throw new FormatError("Invalid Prefix");
 }
 
 /**
@@ -68,15 +68,17 @@ function formatPrefix(input: string | MessagePrefix): string {
  * @param input the message
  * @return the formatted message.
  */
-export function format(input: string | MessageInput): string {
+export function format(input: string | MessageInputLegacy | MessageInputComposite): string {
   if (typeof input === "string") {
     return input;
   }
 
   if (!input || !input.command) {
-    throw new FormatError("Invalid message");
+    throw new FormatError("Invalid Message");
   }
 
+  let middle: string[];
+  let trailing: string;
   let output = "";
 
   if (input.tags && Object.keys(input.tags).length > 0) {
@@ -97,15 +99,26 @@ export function format(input: string | MessageInput): string {
 
   output += input.command;
 
-  if (input.params && input.params.length > 0) {
-    const trailing = input.params[input.params.length - 1];
-    const middle = input.params.slice(0, -1);
-    const middleLength = middle.length;
+  if ("params" in input) {
+    middle = input.params.slice(0, -1);
+    trailing = input.params[input.params.length - 1];
+  }
 
-    for (let i = 0; i < middleLength; i += 1) {
+  if ("middle" in input) {
+    middle = input.middle;
+  }
+
+  if ("trailing" in input) {
+    trailing = input.trailing;
+  }
+
+  if (middle) {
+    for (let i = 0; i < middle.length; i += 1) {
       output += ` ${escapeString(middle[i])}`;
     }
+  }
 
+  if (trailing) {
     output += ` :${trailing}`;
   }
 
