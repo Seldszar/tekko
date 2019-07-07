@@ -49,19 +49,21 @@ function parsePrefix(input: string): MessagePrefix | null {
  * @return the parsed message.
  */
 export function parse(input: string): Message {
-  const message: Partial<Message> = {
-    params: [],
-  };
+  const message: Partial<Message> = {};
 
   Object.defineProperties(message, {
     middle: {
-      get(): string[] {
-        return this.params.slice(0, -1);
-      },
+      writable: true,
+      value: [],
     },
     trailing: {
-      get(): string {
-        return this.params[this.params.length - 1];
+      writable: true,
+      value: undefined,
+    },
+    params: {
+      enumerable: true,
+      get(): string[] {
+        return this.middle.concat(this.trailing || []);
       },
     },
   });
@@ -71,7 +73,7 @@ export function parse(input: string): Message {
 
   if (input.charCodeAt(cursor) === 64) {
     if ((nextWhitespace = input.indexOf(" ")) === -1) {
-      throw new ParseError("Invalid message");
+      throw new ParseError("Invalid Message");
     }
 
     message.tags = {};
@@ -93,7 +95,7 @@ export function parse(input: string): Message {
 
   if (input.charCodeAt(cursor) === 58) {
     if ((nextWhitespace = input.indexOf(" ", cursor)) === -1) {
-      throw new ParseError("Invalid message");
+      throw new ParseError("Invalid Message");
     }
 
     const prefix = parsePrefix(input.slice(cursor + 1, nextWhitespace));
@@ -115,7 +117,7 @@ export function parse(input: string): Message {
       return message as Message;
     }
 
-    throw new ParseError("Invalid message");
+    throw new ParseError("Invalid Message");
   }
 
   message.command = input.slice(cursor, nextWhitespace);
@@ -127,16 +129,16 @@ export function parse(input: string): Message {
 
   while (cursor < input.length) {
     if (input.charCodeAt(cursor) === 58) {
-      message.params.push(input.slice(cursor + 1));
+      message.trailing = input.slice(cursor + 1);
       break;
     }
 
     if ((nextWhitespace = input.indexOf(" ", cursor)) === -1) {
-      message.params.push(input.slice(cursor));
+      message.middle.push(input.slice(cursor));
       break;
     }
 
-    message.params.push(input.slice(cursor, nextWhitespace));
+    message.middle.push(input.slice(cursor, nextWhitespace));
     cursor = nextWhitespace + 1;
 
     while (input.charCodeAt(cursor) === 32) {

@@ -39,8 +39,7 @@ describe("parse", (): void => {
         const result = parseMessage(testCase);
 
         expect(result).toMatchSnapshot();
-        expect(result.middle).toMatchSnapshot();
-        expect(result.trailing).toMatchSnapshot();
+        expect(result.params).toMatchSnapshot();
       } catch (error) {
         expect(error).toMatchSnapshot();
       }

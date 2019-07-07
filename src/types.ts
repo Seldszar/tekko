@@ -52,12 +52,12 @@ export interface Message {
   /**
    * The middle parameters.
    */
-  readonly middle: string[];
+  middle: string[];
 
   /**
    * The trailing parameters.
    */
-  readonly trailing: string;
+  trailing: string;
 }
 
 /**
