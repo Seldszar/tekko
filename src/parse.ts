@@ -1,13 +1,36 @@
 import { ParseError } from "./errors";
 import { unescapeString } from "./helpers";
-import { Message, MessagePrefix } from "./types";
+import { Message, MessagePrefix, MessageTags } from "./types";
+
+/**
+ * Parses message tags.
+ * @param input the message tags input
+ * @return the parsed message tags.
+ */
+export function parseTags(input: string): MessageTags {
+  if (!input) {
+    return null;
+  }
+
+  const result = {};
+
+  const tags = input.split(";");
+  const tagsLength = tags.length;
+
+  for (let i = 0; i < tagsLength; i += 1) {
+    const [key, value] = tags[i].split("=");
+    result[key] = value === undefined || unescapeString(value);
+  }
+
+  return result;
+}
 
 /**
  * Parses a message prefix.
  * @param input the message prefix input
  * @return the parsed message prefix.
  */
-function parsePrefix(input: string): MessagePrefix | null {
+export function parsePrefix(input: string): MessagePrefix | null {
   if (!input) {
     return null;
   }
@@ -76,14 +99,10 @@ export function parse(input: string): Message {
       throw new ParseError("Invalid Message");
     }
 
-    message.tags = {};
+    const tags = parseTags(input.slice(cursor + 1, nextWhitespace));
 
-    const tags = input.slice(1, nextWhitespace).split(";");
-    const tagsLength = tags.length;
-
-    for (let i = 0; i < tagsLength; i += 1) {
-      const [key, value] = tags[i].split("=");
-      message.tags[key] = value === undefined || unescapeString(value);
+    if (tags) {
+      message.tags = tags;
     }
 
     cursor = nextWhitespace + 1;
