@@ -3,6 +3,7 @@ import { format as formatMessage } from "../format";
 
 describe("format", (): void => {
   const testCases = [
+    "lorem FOO",
     {},
     { tags: "lorem", command: "FOO" },
     { tags: {}, command: "FOO" },
@@ -23,7 +24,11 @@ describe("format", (): void => {
     { command: "FOO", params: [] },
     { command: "FOO", params: ["lorem"] },
     { command: "FOO", params: ["lorem", "ipsum"] },
-    { command: "FOO", params: ["Lorem ipsum dolor sit amet"] },
+    { command: "FOO", params: ["lorem\\"] },
+    { command: "FOO", params: [" dolor"] },
+    { command: "FOO", params: ["\rsit"] },
+    { command: "FOO", params: ["\namet;"] },
+    { command: "FOO", middle: ["lorem", "ipsum"], trailing: "Lorem ipsum dolor sit amet" },
     { params: ["lorem", "ipsum"] },
   ];
 

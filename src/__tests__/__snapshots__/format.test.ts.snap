@@ -1,10 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`format should format "{"command":"FOO","params":["Lorem ipsum dolor sit amet"]}" 1`] = `"FOO :Lorem ipsum dolor sit amet"`;
+exports[`format should format ""lorem FOO"" 1`] = `"lorem FOO"`;
 
-exports[`format should format "{"command":"FOO","params":["lorem","ipsum"]}" 1`] = `"FOO lorem :ipsum"`;
+exports[`format should format "{"command":"FOO","middle":["lorem","ipsum"],"trailing":"Lorem ipsum dolor sit amet"}" 1`] = `"FOO lorem ipsum :Lorem ipsum dolor sit amet"`;
 
-exports[`format should format "{"command":"FOO","params":["lorem"]}" 1`] = `"FOO :lorem"`;
+exports[`format should format "{"command":"FOO","params":[" dolor"]}" 1`] = `"FOO : dolor"`;
+
+exports[`format should format "{"command":"FOO","params":["\\namet;"]}" 1`] = `
+"FOO :
+amet;"
+`;
+
+exports[`format should format "{"command":"FOO","params":["\\rsit"]}" 1`] = `
+"FOO :
+sit"
+`;
+
+exports[`format should format "{"command":"FOO","params":["lorem","ipsum"]}" 1`] = `"FOO lorem ipsum"`;
+
+exports[`format should format "{"command":"FOO","params":["lorem"]}" 1`] = `"FOO lorem"`;
+
+exports[`format should format "{"command":"FOO","params":["lorem\\\\"]}" 1`] = `"FOO :lorem\\\\"`;
 
 exports[`format should format "{"command":"FOO","params":[]}" 1`] = `"FOO"`;
 

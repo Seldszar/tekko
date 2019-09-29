@@ -1,5 +1,5 @@
 import { FormatError } from "./errors";
-import { escapeString } from "./helpers";
+import { escapeString, shouldEscapeString } from "./helpers";
 import { MessageInputLegacy, MessageInputComposite, MessagePrefix, MessageTags } from "./types";
 
 /**
@@ -100,8 +100,14 @@ export function format(input: string | MessageInputLegacy | MessageInputComposit
   output += input.command;
 
   if ("params" in input) {
-    middle = input.params.slice(0, -1);
-    trailing = input.params[input.params.length - 1];
+    const last = input.params[input.params.length - 1];
+
+    if (last && shouldEscapeString(last)) {
+      middle = input.params.slice(0, -1);
+      trailing = last;
+    } else {
+      middle = input.params;
+    }
   }
 
   if ("middle" in input) {

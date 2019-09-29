@@ -8,10 +8,6 @@ import { Message, MessagePrefix, MessageTags } from "./types";
  * @return the parsed message tags.
  */
 export function parseTags(input: string): MessageTags {
-  if (!input) {
-    return null;
-  }
-
   const result = {};
 
   const tags = input.split(";");
@@ -99,12 +95,7 @@ export function parse(input: string): Message {
       throw new ParseError("Invalid Message");
     }
 
-    const tags = parseTags(input.slice(cursor + 1, nextWhitespace));
-
-    if (tags) {
-      message.tags = tags;
-    }
-
+    message.tags = parseTags(input.slice(cursor + 1, nextWhitespace));
     cursor = nextWhitespace + 1;
   }
 

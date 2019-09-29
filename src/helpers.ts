@@ -1,4 +1,27 @@
 /**
+ * Indicates if a string should be escaped.
+ * @param input the string to validate
+ */
+export function shouldEscapeString(input: string): boolean {
+  console.log(input);
+
+  for (let i = 0; i < input.length; i += 1) {
+    const charCode = input.charCodeAt(i);
+
+    switch (charCode) {
+      case 10:
+      case 13:
+      case 32:
+      case 59:
+      case 92:
+        return true;
+    }
+  }
+
+  return false;
+}
+
+/**
  * Escapes a string.
  * @param input the string to escape
  * @return the escaped string.
