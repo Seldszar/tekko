@@ -3,8 +3,6 @@
  * @param input the string to validate
  */
 export function shouldEscapeString(input: string): boolean {
-  console.log(input);
-
   for (let i = 0; i < input.length; i += 1) {
     const charCode = input.charCodeAt(i);
 
