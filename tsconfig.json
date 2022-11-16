@@ -1,12 +1,10 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "es2017",
+    "target": "es2020",
     "module": "commonjs",
     "moduleResolution": "node",
-    "sourceMap": true,
     "declaration": true,
-    "newLine": "lf"
   },
   "exclude": [
     "**/__mocks__",

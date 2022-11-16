@@ -3,22 +3,39 @@ import { unescapeString } from "./helpers";
 import { Message, MessagePrefix, MessageTags } from "./types";
 
 /**
+ * A tag mapping function.
+ */
+type TagMapper = (key: string, value: string | true) => [string, string | true];
+
+/**
  * Parses message tags.
  * @param input the message tags input
+ * @param mapper a mapping function
  * @return the parsed message tags.
  */
-export function parseTags(input: string): MessageTags {
+export function parseTags<T extends MessageTags = MessageTags>(
+  input: string,
+  mapper?: TagMapper
+): T {
   const result = {};
 
   const tags = input.split(";");
   const tagsLength = tags.length;
 
   for (let i = 0; i < tagsLength; i += 1) {
-    const [key, value] = tags[i].split("=");
-    result[key] = value === undefined || unescapeString(value);
+    const pair = tags[i].split("=");
+
+    let key = pair[0];
+    let value = pair[1] === undefined || unescapeString(pair[1]);
+
+    if (mapper) {
+      [key, value] = mapper(key, value);
+    }
+
+    result[key] = value;
   }
 
-  return result;
+  return result as T;
 }
 
 /**
@@ -61,14 +78,25 @@ export function parsePrefix(input: string): MessagePrefix | null {
   return prefix as MessagePrefix;
 }
 
+export interface ParseOptions {
+  /**
+   * A tag mapping function.
+   */
+  tagMapper?: TagMapper;
+}
+
 /**
  * Parses a message.
  * @throws {ParseError}
  * @param input the message input
+ * @param options parse options
  * @return the parsed message.
  */
-export function parse(input: string): Message {
-  const message: Partial<Message> = {};
+export function parse<T extends MessageTags = MessageTags>(
+  input: string,
+  options: ParseOptions = {}
+): Message<T> {
+  const message: Partial<Message<T>> = {};
 
   Object.defineProperties(message, {
     middle: {
@@ -95,7 +123,7 @@ export function parse(input: string): Message {
       throw new ParseError("Invalid Message");
     }
 
-    message.tags = parseTags(input.slice(cursor + 1, nextWhitespace));
+    message.tags = parseTags(input.slice(cursor + 1, nextWhitespace), options.tagMapper);
     cursor = nextWhitespace + 1;
   }
 
@@ -124,7 +152,8 @@ export function parse(input: string): Message {
   if ((nextWhitespace = input.indexOf(" ", cursor)) === -1) {
     if (input.length > cursor) {
       message.command = input.slice(cursor);
-      return message as Message;
+
+      return message as Message<T>;
     }
 
     throw new ParseError("Invalid Message");
@@ -156,5 +185,5 @@ export function parse(input: string): Message {
     }
   }
 
-  return message as Message;
+  return message as Message<T>;
 }

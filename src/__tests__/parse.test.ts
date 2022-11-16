@@ -1,6 +1,6 @@
 import { parse as parseMessage } from "../parse";
 
-describe("parse", (): void => {
+describe("parse", () => {
   const testCases = [
     "",
     "@",
@@ -34,7 +34,7 @@ describe("parse", (): void => {
   ];
 
   for (const testCase of testCases) {
-    test(`should parse "${testCase}"`, (): void => {
+    test(`should parse "${testCase}"`, () => {
       try {
         const result = parseMessage(testCase);
 
@@ -45,4 +45,14 @@ describe("parse", (): void => {
       }
     });
   }
+
+  test(`should parse with custom tag mapper`, () => {
+    const result = parseMessage("@test=super;single :test!me@test.ing FOO :This is a test", {
+      tagMapper(key, value) {
+        return [`${key}_mapped`, `${value}_mapped`];
+      },
+    });
+
+    expect(result).toMatchSnapshot();
+  });
 });

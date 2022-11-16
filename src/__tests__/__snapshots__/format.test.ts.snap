@@ -20,7 +20,7 @@ exports[`format should format "{"command":"FOO","params":["lorem","ipsum"]}" 1`]
 
 exports[`format should format "{"command":"FOO","params":["lorem"]}" 1`] = `"FOO lorem"`;
 
-exports[`format should format "{"command":"FOO","params":["lorem\\\\"]}" 1`] = `"FOO :lorem\\\\"`;
+exports[`format should format "{"command":"FOO","params":["lorem\\\\"]}" 1`] = `"FOO :lorem\\"`;
 
 exports[`format should format "{"command":"FOO","params":[]}" 1`] = `"FOO"`;
 
@@ -48,7 +48,7 @@ exports[`format should format "{"tags":{"lorem":"lorem","ipsum":"ipsum"},"comman
 
 exports[`format should format "{"tags":{"lorem":"lorem"}}" 1`] = `[FormatError: Invalid Message]`;
 
-exports[`format should format "{"tags":{"lorem":"lorem\\\\ipsum dolor\\rsit\\namet;"},"command":"FOO"}" 1`] = `"@lorem=lorem\\\\\\\\ipsum\\\\sdolor\\\\rsit\\\\namet\\\\: FOO"`;
+exports[`format should format "{"tags":{"lorem":"lorem\\\\ipsum dolor\\rsit\\namet;"},"command":"FOO"}" 1`] = `"@lorem=lorem\\\\ipsum\\sdolor\\rsit\\namet\\: FOO"`;
 
 exports[`format should format "{"tags":{"lorem":true},"command":"FOO"}" 1`] = `"@lorem FOO"`;
 

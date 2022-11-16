@@ -1,7 +1,7 @@
 import { FormatError } from "../errors";
 import { format as formatMessage } from "../format";
 
-describe("format", (): void => {
+describe("format", () => {
   const testCases = [
     "lorem FOO",
     {},
@@ -33,11 +33,11 @@ describe("format", (): void => {
   ];
 
   for (const testCase of testCases) {
-    test(`should format "${JSON.stringify(testCase)}"`, (): void => {
+    test(`should format "${JSON.stringify(testCase)}"`, () => {
       let result: string | FormatError;
 
       try {
-        result = formatMessage(testCase as any);
+        result = formatMessage(testCase as never);
       } catch (error) {
         result = error;
       }

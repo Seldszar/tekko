@@ -2,7 +2,7 @@
  * Message tags
  */
 export interface MessageTags {
-  [key: string]: boolean | string;
+  [key: string]: string | true;
 }
 
 /**
@@ -28,11 +28,11 @@ export interface MessagePrefix {
 /**
  * A message.
  */
-export interface Message {
+export interface Message<T = MessageTags> {
   /**
    * The tags.
    */
-  tags?: MessageTags;
+  tags?: T;
 
   /**
    * The prefix.
@@ -60,7 +60,7 @@ export interface Message {
   trailing: string;
 }
 
-interface BaseMessageInput {
+interface MessageInput {
   /**
    * The tags.
    */
@@ -77,14 +77,14 @@ interface BaseMessageInput {
   command: string;
 }
 
-export interface MessageInputLegacy extends BaseMessageInput {
+export interface MessageInputLegacy extends MessageInput {
   /**
    * The parameters.
    */
   params?: string[];
 }
 
-export interface MessageInputComposite extends BaseMessageInput {
+export interface MessageInputComposite extends MessageInput {
   /**
    * The middle parameters.
    */

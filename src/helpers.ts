@@ -32,7 +32,7 @@ export function escapeString(input: string): string {
   let output = "";
 
   for (let i = 0; i < input.length; i += 1) {
-    let charCode = input.charCodeAt(i);
+    const charCode = input.charCodeAt(i);
 
     switch (charCode) {
       case 10:
@@ -69,7 +69,7 @@ export function escapeString(input: string): string {
  * @return the unescaped string.
  */
 export function unescapeString(input: string): string {
-  if (!input) {
+  if (input.length === 0) {
     return "";
   }
 
